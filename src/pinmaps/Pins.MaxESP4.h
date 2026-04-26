@@ -92,7 +92,7 @@
 #define AXIS1_M2_PIN            OFF              // UART TX
 #define AXIS1_M3_PIN            OFF              // UART RX
 #define AXIS1_STEP_PIN          18
-#define AXIS1_DIR_PIN           0                // [must be high at boot 0]
+#define AXIS1_DIR_PIN           16               // changed from GPIO0 (strapping pin)
 #ifndef AXIS1_SENSE_HOME_PIN
   #define AXIS1_SENSE_HOME_PIN  AUX3_PIN
 #endif

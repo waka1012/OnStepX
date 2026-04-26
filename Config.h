@@ -17,11 +17,11 @@
 #define HOST_NAME                "OnStep" // nStep", Hostname for this device up to 16 chars.                                 Adjust
 
 // PINMAP ------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#PINMAP
-#define PINMAP                        OFF //    OFF, Choose from: MiniPCB, MiniPCB2, MaxPCB4, MaxESP4, MaxSTM3, FYSETC_E4,   <-Req'd
+#define PINMAP                    MaxESP4 //    OFF, Choose from: MiniPCB, MiniPCB2, MaxPCB4, MaxESP4, MaxSTM3, FYSETC_E4,   <-Req'd
                                           //         BTT_SKR_PRO, etc.  Other boards and more info. in ~/src/Constants.h
 
 // SERIAL PORT COMMAND CHANNELS --------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Controller#SERIAL_PORTS
-#define SERIAL_A_BAUD_DEFAULT        9600 //   9600, n. Where n=9600,19200,57600,115200,230400,460800 (common baud rates.)    Infreq
+#define SERIAL_A_BAUD_DEFAULT      115200 //   9600, n. Where n=9600,19200,57600,115200,230400,460800 (common baud rates.)    Infreq
 #define SERIAL_B_BAUD_DEFAULT        9600 //   9600, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
 #define SERIAL_B_ESP_FLASHING         OFF //    OFF, ON Upload ESP8266 WiFi firmware through SERIAL_B with :ESPFLASH# cmd.    Option
 #define SERIAL_C_BAUD_DEFAULT         OFF //    OFF, n. Baud rate as above. See (src/pinmaps/) for Serial port assignments.   Infreq
@@ -56,18 +56,19 @@
 // Typically: A4988, DRV8825, LV8729, S109, TMC2130, TMC5160, TMC2209, etc.
 
 // AXIS1 RA/AZM -------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Axes
-#define AXIS1_DRIVER_MODEL            OFF //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
+#define AXIS1_DRIVER_MODEL        GENERIC //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
 
 // If runtime axis settings are enabled changes in the section below will be ignored (disable in SWS or by wiping NV/EEPROM):
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
-#define AXIS1_STEPS_PER_DEGREE      12800 //  12800, n. Number of steps per degree:                                          <-Req'd
+#define AXIS1_STEPS_PER_DEGREE       8.89 //  12800, n. Number of steps per degree:                                          <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
+                                          //         TEST: 200 * 16 * 1(gear) / 360 = 8.89  REAL: 200 * 16 * 122(gear) / 360 = 1084.4
 #define AXIS1_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS1_LIMIT_MIN              -180 //   -180, n. Where n= -90..-360 (degrees.) Minimum "Hour Angle" or Azimuth.        Adjust
 #define AXIS1_LIMIT_MAX               180 //    180, n. Where n=  90.. 360 (degrees.) Maximum "Hour Angle" or Azimuth.        Adjust
 #define AXIS1_LIMIT_SYNC              OFF //    OFF, n. Where n= 0..90 (degrees.) Allow sync/reset only within this +/-range. Option
 
-#define AXIS1_DRIVER_MICROSTEPS       OFF //    OFF, n. Microstep mode when tracking.                                        <-Req'd
+#define AXIS1_DRIVER_MICROSTEPS        16 //    OFF, n. Microstep mode when tracking.                                        <-Req'd
 #define AXIS1_DRIVER_MICROSTEPS_GOTO  OFF //    OFF, n. Microstep mode used during slews. OFF uses _DRIVER_MICROSTEPS.        Option
 
 // for TMC2130, TMC5160, TMC2209, TMC2226 STEP/DIR driver models:
@@ -92,18 +93,19 @@
                                           //         |HYST(n) Where n=0..1023 (ADU) for +/- Hystersis range.
 
 // AXIS2 DEC/ALT ------------------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Axes
-#define AXIS2_DRIVER_MODEL            OFF //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
+#define AXIS2_DRIVER_MODEL        GENERIC //    OFF, Enter motor driver model (above) in both axes to activate the mount.    <-Often
 
 // If runtime axis settings are enabled changes in the section below will be ignored (disable in SWS or by wiping NV/EEPROM):
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-#define AXIS2_STEPS_PER_DEGREE      12800 //  12800, n. Number of steps per degree:                                          <-Req'd
+#define AXIS2_STEPS_PER_DEGREE       8.89 //  12800, n. Number of steps per degree:                                          <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
+                                          //         TEST: 200 * 16 * 1(gear) / 360 = 8.89  REAL: 200 * 16 * 122(gear) / 360 = 1084.4
 #define AXIS2_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
 #define AXIS2_LIMIT_MIN               -90 //    -90, n. Where n=-90..0 (degrees.) Minimum allowed Declination or Altitude.    Infreq
 #define AXIS2_LIMIT_MAX                90 //     90, n. Where n= 0..90 (degrees.) Maximum allowed Declination or Altitude.    Infreq
 #define AXIS2_LIMIT_SYNC              OFF //    OFF, n. Where n= 0..90 (degrees.) Allow sync/reset only within this +/-range. Option
 
-#define AXIS2_DRIVER_MICROSTEPS       OFF //    OFF, n. Microstep mode when tracking.                                        <-Req'd
+#define AXIS2_DRIVER_MICROSTEPS        16 //    OFF, n. Microstep mode when tracking.                                        <-Req'd
 #define AXIS2_DRIVER_MICROSTEPS_GOTO  OFF //    OFF, n. Microstep mode used during slews. OFF uses _DRIVER_MICROSTEPS.        Option
 
 // for TMC2130, TMC5160, TMC2209, TMC2226 STEP/DIR driver models:
