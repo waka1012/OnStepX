@@ -7,28 +7,59 @@
 
 ---
 
-## TB6600 ステッパードライバ 配線
+## TB6600 ステッパードライバ 配線（2SC1815トランジスタ経由）
+
+3.3V出力のESP32から5V入力のTB6600を駆動するため、2SC1815(NPN)トランジスタを使用。
+
+```
+ESP32(3.3V)                                    TB6600
+                                         5V --- PUL+
+STEP(GPIO18) ---[1kΩ]--- B(C1815) C --------- PUL-
+                               E
+                               |
+                              GND
+
+                                         5V --- DIR+
+DIR (GPIO16) ---[1kΩ]--- B(C1815) C --------- DIR-
+                               E
+                               |
+                              GND
+
+                                         5V --- ENA+
+ENA (GPIO5 ) ---[1kΩ]--- B(C1815) C --------- ENA-
+                               E
+                               |
+                              GND
+
+ESP32 GND ----------------------------------------- GND共通
+```
 
 ### Axis1（赤経 RA）
 
-| TB6600端子 | ESP32 GPIO |
-|-----------|-----------|
-| PUL+      | GPIO 18   |
-| DIR+      | GPIO 16   |
-| ENA+      | GPIO 5    |
-| PUL- / DIR- / ENA- | GND |
+| TB6600端子 | 接続先 |
+|-----------|--------|
+| PUL+      | 5V     |
+| PUL-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 18） |
+| DIR+      | 5V     |
+| DIR-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 16） |
+| ENA+      | 5V     |
+| ENA-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 5）  |
+| GND       | ESP32 GND |
 
 ### Axis2（赤緯 Dec）
 
-| TB6600端子 | ESP32 GPIO |
-|-----------|-----------|
-| PUL+      | GPIO 27   |
-| DIR+      | GPIO 26   |
-| ENA+      | GPIO 5    |
-| PUL- / DIR- / ENA- | GND |
+| TB6600端子 | 接続先 |
+|-----------|--------|
+| PUL+      | 5V     |
+| PUL-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 27） |
+| DIR+      | 5V     |
+| DIR-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 26） |
+| ENA+      | 5V     |
+| ENA-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 5）  |
+| GND       | ESP32 GND |
 
-> **注意**: ENA（Enable）は Axis1/Axis2 共通（GPIO5）。
-> ESP32 は 3.3V 出力。TB6600 は 3.3V でも動作するが、不安定な場合はレベルシフタ（3.3V→5V）を挟む。
+> **注意**: ENA は Axis1/Axis2 共通（GPIO5）。トランジスタにより論理が反転するため、
+> `Config.h` に `#define SHARED_ENABLE_STATE HIGH` を追加済み。
 
 ---
 

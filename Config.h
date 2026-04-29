@@ -150,6 +150,7 @@
                                           //         Requires FRAM NV memory and the mount must not move while powered down.
 
 #define MOUNT_ENABLE_IN_STANDBY       OFF //    OFF, ON Enables mount motor drivers while in standby.                         Infreq
+#define SHARED_ENABLE_STATE          HIGH // transistor (2SC1815) inverts enable logic: HIGH=enabled
 
 // TIME AND LOCATION ---------------------------------------------- see https://onstep.groups.io/g/main/wiki/Configuration_Mount#TLS
 #define TIME_LOCATION_SOURCE          OFF //    OFF, DS3231 (I2C,) SD3031 (I2C,) TEENSY (T3.2 etc,) GPS, or NTP source.       Option
