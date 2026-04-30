@@ -80,7 +80,7 @@
   #define LIMIT_SENSE_PIN       AUX7_PIN
 #endif
 
-#define SHARED_DIRECTION_PINS                    // Hint that the direction pins are shared
+// #define SHARED_DIRECTION_PINS                 // disabled: for TMC UART only, breaks GENERIC (TB6600) DIR control
 #ifndef SHARED_ENABLE_PIN
   #define SHARED_ENABLE_PIN     5                // Hint that the enable pins are shared
 #endif
