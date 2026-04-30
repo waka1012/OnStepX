@@ -58,8 +58,9 @@ ESP32 GND ----------------------------------------- GND共通
 | ENA-      | 2SC1815コレクタ（ベース ← 1kΩ ← GPIO 5）  |
 | GND       | ESP32 GND |
 
-> **注意**: ENA は Axis1/Axis2 共通（GPIO5）。トランジスタにより論理が反転するため、
-> `Config.h` に `#define SHARED_ENABLE_STATE HIGH` を追加済み。
+> **注意**: ENA は Axis1/Axis2 共通（GPIO5）。
+> TB6600のENAは「無効化」信号（電流あり→モーターフリー、電流なし→通電）のため、
+> トランジスタ回路でも `SHARED_ENABLE_STATE LOW`（デフォルト）のままで正常動作する。
 
 ---
 
