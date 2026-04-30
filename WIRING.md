@@ -5,6 +5,17 @@
 - **ピンマップ**: MaxESP4（`Config.h` の `PINMAP MaxESP4`）
 - **変更点**: `Pins.MaxESP4.h` の `AXIS1_DIR_PIN` を GPIO0（ストラッピングピン）から GPIO16 に変更済み
 
+## ⚠️ GPIO16 使用上の注意
+
+MaxESP4 では GPIO16 は **Serial2（SERIAL_B）の RX ピン** として割り当てられている。  
+GPIO16 を `AXIS1_DIR_PIN` として使うには、`Config.h` で必ず無効化すること：
+
+```cpp
+#define SERIAL_B_BAUD_DEFAULT  OFF  // GPIO16を解放するために必須
+```
+
+`OFF` にしないと GPIO16 が Serial2 に専有され、DIR 信号が出力されず**常に同一方向にしか回らない**。
+
 ---
 
 ## TB6600 ステッパードライバ 配線（2SC1815トランジスタ経由）
