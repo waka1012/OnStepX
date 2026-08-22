@@ -11,3 +11,9 @@ esp32.svd
 src/plugins/*
 debug.svd
 z.*
+
+# PlatformIO
+.pio/
+
+# macOS
+.DS_Store
