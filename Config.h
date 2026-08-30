@@ -60,7 +60,10 @@
 
 // If runtime axis settings are enabled changes in the section below will be ignored (disable in SWS or by wiping NV/EEPROM):
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
-#define AXIS1_STEPS_PER_DEGREE       8.89 //  12800, n. Number of steps per degree:                                          <-Req'd
+// TODO: Provisional value 3200 (= pulses per motor revolution). For bench-testing the bare
+//       motor's rotation direction. Replace with 1084.4*B (at 16 microsteps) once the
+//       reduction stages (122:1 worm x B:1 belt) are installed.
+#define AXIS1_STEPS_PER_DEGREE       3200 //  12800, n. Number of steps per degree:                                          <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
                                           //         TEST: 200 * 16 * 1(gear) / 360 = 8.89  REAL: 200 * 16 * 122(gear) / 360 = 1084.4
 #define AXIS1_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
@@ -82,7 +85,9 @@
 #define AXIS1_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
 #define AXIS1_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
-#define AXIS1_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Infreq
+// ON to avoid heat build-up while idle during bench testing (no load). Before mounting the
+// optical tube, check that the axis does not drop toward the heavier side when de-energized.
+#define AXIS1_POWER_DOWN               ON //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Infreq
 
 #define AXIS1_SENSE_HOME              OFF //    OFF, HIGH or LOW enables & state clockwise home position, as seen from front. Option
 #define AXIS1_SENSE_LIMIT_MIN LIMIT_SENSE // ...NSE, HIGH or LOW state on limit sense switch stops movement.                  Option
@@ -97,7 +102,9 @@
 
 // If runtime axis settings are enabled changes in the section below will be ignored (disable in SWS or by wiping NV/EEPROM):
 // \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-#define AXIS2_STEPS_PER_DEGREE       8.89 //  12800, n. Number of steps per degree:                                          <-Req'd
+// TODO: Provisional value 3200, same reasoning as AXIS1. Replace with 1084.4*B (at 16
+//       microsteps) once the reduction stages are installed.
+#define AXIS2_STEPS_PER_DEGREE       3200 //  12800, n. Number of steps per degree:                                          <-Req'd
                                           //         n = (stepper_steps * micro_steps * overall_gear_reduction)/360.0
                                           //         TEST: 200 * 16 * 1(gear) / 360 = 8.89  REAL: 200 * 16 * 122(gear) / 360 = 1084.4
 #define AXIS2_REVERSE                 OFF //    OFF, ON Reverses movement direction, or reverse wiring instead to correct.   <-Often
@@ -119,7 +126,8 @@
 #define AXIS2_DRIVER_DECAY            OFF //    OFF, Tracking decay mode default override. TMC default is STEALTHCHOP.        Infreq
 #define AXIS2_DRIVER_DECAY_GOTO       OFF //    OFF, Decay mode goto default override. TMC default is SPREADCYCLE.            Infreq
 
-#define AXIS2_POWER_DOWN              OFF //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Option
+// ON to avoid heat build-up while idle during bench testing, same reasoning as AXIS1.
+#define AXIS2_POWER_DOWN               ON //    OFF, ON Powers off 30sec after movement stops or 10min after last<=1x guide.  Option
 
 #define AXIS2_SENSE_HOME              OFF //    OFF, HIGH or LOW enables & state clockwise home position, as seen from above. Option
 #define AXIS2_SENSE_LIMIT_MIN LIMIT_SENSE // ...NSE, HIGH or LOW state on limit sense switch stops movement.                  Option
@@ -203,8 +211,12 @@
 #define TRACK_COMPENSATION_MEMORY     OFF //    OFF, ON Remembers refraction/pointing model compensated tracking settings.    Option
 
 // SLEWING BEHAVIOUR ------------------------------------------ see https://onstep.groups.io/g/main/wiki/Configuration_Mount#SLEWING
-// TODO: テスト用に45.0に設定。実機（望遠鏡マウント）取り付け時はギア比に合わせて1.0〜4.0 deg/secに戻すこと
-#define SLEW_RATE_BASE_DESIRED       45.0 //    1.0, n. Desired slew rate in deg/sec. Adjustable at run-time from            <-Req'd
+// Must be changed together with STEPS_PER_DEGREE. At 3200 steps/deg, 1.0 deg/sec makes the
+// motor turn exactly one revolution per second (3200 Hz), which is easy to observe by eye.
+// Leaving this at 45.0 would give 144 kHz on :R9#, far above the TB6600 20 kHz input limit,
+// and the motor would certainly stall. Retune within 1.0-4.0 deg/sec for the actual gear
+// ratio once the reduction stages are installed.
+#define SLEW_RATE_BASE_DESIRED        1.0 //    1.0, n. Desired slew rate in deg/sec. Adjustable at run-time from            <-Req'd
                                           //         1/2 to 2x this rate, and as performace considerations require.
 #define SLEW_RATE_MEMORY              OFF //    OFF, ON Remembers rates set across power cycles.                              Option
 #define SLEW_ACCELERATION_DIST        5.0 //    5.0, n, (degrees.) Approx. distance for acceleration (and deceleration.)      Adjust
